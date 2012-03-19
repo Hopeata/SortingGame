@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Board {
 
     private Tile[][] board;
+    private int moveCount = 0;
 
     public Board(int rows, int columns) {
         if (rows < 3 || rows > 10 || columns < 3 || columns > 10) {
@@ -28,6 +29,10 @@ public class Board {
     public Tile[][] getBoard() {
         return board;
     }
+    
+    public int getMoveCount() {
+        return moveCount;
+    }
 
     public void initializeBoard() {
         ArrayList<Tile> tiles = getTilesForBoard();
@@ -39,6 +44,7 @@ public class Board {
                 }
             }
         }
+        moveCount = 0;
     }
 
     private ArrayList<Tile> getTilesForBoard() {
@@ -49,6 +55,11 @@ public class Board {
             tiles.add(tile);
         }
         return tiles;
+    }
+    
+    public boolean moveTile(int row, int column) {
+        moveCount++;
+        return false;
     }
 
     @Override

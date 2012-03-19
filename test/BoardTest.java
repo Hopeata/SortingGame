@@ -101,6 +101,21 @@ public class BoardTest {
             fail("Board doesn't contain all the expected numbers, remaining: " + expectedOrderNumbers);
         }
     }
+    
+    @Test
+    public void testMoveCounter() {
+        Board board = new Board(4, 5);
+        assertEquals(0, board.getMoveCount());
+        board.initializeBoard();
+        assertEquals(0, board.getMoveCount());
+        board.moveTile(3, 2);
+        board.moveTile(3, 2);
+        board.moveTile(3, 2);
+        board.moveTile(3, 2);
+        assertEquals(4, board.getMoveCount());
+        board.initializeBoard();
+        assertEquals(0, board.getMoveCount());
+    }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
