@@ -10,7 +10,19 @@ public class Board {
     private Tile[][] board;
 
     public Board(int rows, int columns) {
+        if (rows < 3 || rows > 10 || columns < 3 || columns > 10) {
+            throw new IllegalArgumentException("The number of rows and columns must be between 3 and 10. "
+                    + "Received " + rows + " rows and " + columns + " columns." );
+        }
         this.board = new Tile[rows][columns];
+    }
+    
+    public int getRows() {
+        return board.length;
+    }
+    
+    public int getColumns() {
+        return board[0].length;
     }
 
     public Tile[][] getBoard() {
@@ -19,8 +31,8 @@ public class Board {
 
     public void initializeBoard() {
         ArrayList<Tile> tiles = getTilesForBoard();
-        for (int row = 0; row < board.length; row++) {
-            for (int column = 0; column < board[row].length; column++) {
+        for (int row = 0; row < getRows(); row++) {
+            for (int column = 0; column < getColumns(); column++) {
                 if (tiles.size() > 0) {
                     int randomTileIndex = (int) (Math.random() * tiles.size());
                     board[row][column] = tiles.remove(randomTileIndex);
@@ -42,8 +54,8 @@ public class Board {
     @Override
     public String toString() {
         StringBuilder toString = new StringBuilder("Board situation:\n");
-        for (int row = 0; row < board.length; row++) {
-            for (int column = 0; column < board[row].length; column++) {
+        for (int row = 0; row < getRows(); row++) {
+            for (int column = 0; column < getColumns(); column++) {
                 if (column != 0) {
                     toString.append(" | ");
                 }

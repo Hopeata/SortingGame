@@ -10,7 +10,7 @@ public class SortingGame {
      */
     public static void main(String[] args) {
         
-        Board board = new Board(4, 5);
+        Board board = new Board(2, 5);
         board.initializeBoard();
         System.out.println(board.toString());
         
