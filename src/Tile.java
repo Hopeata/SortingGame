@@ -4,7 +4,7 @@
  *
  * @author Valeria
  */
-public class Tile {
+public class Tile implements Comparable<Tile> {
     
     private int orderNumber;
     
@@ -23,6 +23,11 @@ public class Tile {
     @Override
     public String toString() {
         return "" + orderNumber;
+    }
+
+    @Override
+    public int compareTo(Tile t) {
+        return new Integer(this.orderNumber).compareTo(new Integer(t.orderNumber));
     }
     
     

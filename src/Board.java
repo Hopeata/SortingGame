@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -13,15 +14,15 @@ public class Board {
     public Board(int rows, int columns) {
         if (rows < 3 || rows > 10 || columns < 3 || columns > 10) {
             throw new IllegalArgumentException("The number of rows and columns must be between 3 and 10. "
-                    + "Received " + rows + " rows and " + columns + " columns." );
+                    + "Received " + rows + " rows and " + columns + " columns.");
         }
         this.board = new Tile[rows][columns];
     }
-    
+
     public int getRows() {
         return board.length;
     }
-    
+
     public int getColumns() {
         return board[0].length;
     }
@@ -29,24 +30,37 @@ public class Board {
     public Tile[][] getBoard() {
         return board;
     }
-    
+
     public int getMoveCount() {
         return moveCount;
     }
 
+    /**
+     * The method initialize a new game / the Board and annulate the move
+     * counter
+     */
     public void initializeBoard() {
-        ArrayList<Tile> tiles = getTilesForBoard();
-        for (int row = 0; row < getRows(); row++) {
-            for (int column = 0; column < getColumns(); column++) {
-                if (tiles.size() > 0) {
-                    int randomTileIndex = (int) (Math.random() * tiles.size());
-                    board[row][column] = tiles.remove(randomTileIndex);
+        boolean tilesInOrder = true;
+        while (tilesInOrder) {
+            ArrayList<Tile> tiles = getTilesForBoard();
+            for (int row = 0; row < getRows(); row++) {
+                for (int column = 0; column < getColumns(); column++) {
+                    if (tiles.size() > 0) {
+                        int randomTileIndex = (int) (Math.random() * tiles.size());
+                        board[row][column] = tiles.remove(randomTileIndex);
+                    }
                 }
             }
+            tilesInOrder = tilesInOrder();
         }
         moveCount = 0;
     }
 
+    /**
+     * The method creates a new list of Tile objects for a new game / the Board
+     *
+     * @return a list of Tile objects
+     */
     private ArrayList<Tile> getTilesForBoard() {
         int numberOfTiles = board.length * board[0].length - 1;
         ArrayList<Tile> tiles = new ArrayList<>();
@@ -56,29 +70,98 @@ public class Board {
         }
         return tiles;
     }
-    
+
+    /**
+     * The method 'makes a move' on the Board with tile if possible
+     *
+     * @param row
+     * @param column
+     * @return boolean if a Tile was moved
+     */
     public boolean moveTile(int row, int column) {
-        moveCount++;
+        int[] emptyTileCoordinates = findEmptyTile(row, column);
+        if (emptyTileCoordinates != null) {
+            board[emptyTileCoordinates[0]][emptyTileCoordinates[1]] = board[row][column];
+            board[row][column] = null;
+            moveCount++;
+            return true;
+        }
         return false;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder toString = new StringBuilder("Board situation:\n");
+    private int[] findEmptyTile(int row, int column) {
+        if (column > 0 && board[row][column - 1] == null) {
+            return new int[]{row, column - 1};
+        } else if (row > 0 && board[row - 1][column] == null) {
+            return new int[]{row - 1, column};
+        } else if (column < (getColumns() - 1) && board[row][column + 1] == null) {
+            return new int[]{row, column + 1};
+        } else if (row < (getRows() - 1) && board[row + 1][column] == null) {
+            return new int[]{row + 1, column};
+        }
+        return null;
+    }
+
+    public boolean tilesInOrder() {
+        int expectedOrderNumber = 1;
         for (int row = 0; row < getRows(); row++) {
             for (int column = 0; column < getColumns(); column++) {
-                if (column != 0) {
-                    toString.append(" | ");
-                }
-                Tile tile = board[row][column];
-                if (tile != null) {
-                    toString.append(String.format("%2s", tile.toString()));
+                if (board[row][column] == null) {
+                    if (row != getRows() - 1 || column != getColumns() - 1) {
+                        return false;
+                    }
                 } else {
-                    toString.append("  ");
+                    if (board[row][column].getOrderNumber() != expectedOrderNumber) {
+                        return false;
+                    }
+                    expectedOrderNumber++;
                 }
             }
-            toString.append("\n");
         }
-        return toString.toString();
+        return true;
     }
-}
+
+    public void sortTilesInOrder() {
+        ArrayList<Tile> tiles = new ArrayList<>();
+        for (int row = 0; row < getRows(); row++) {
+            for (int column = 0; column < getColumns(); column++) {
+                Tile tile = board[row][column];
+                if (tile != null) {
+                    tiles.add(tile);
+                    board[row][column] = null;
+                }
+            }
+        }
+        Collections.sort(tiles);
+        for (int row = 0; row < getRows(); row++) {
+            for (int column = 0; column < getColumns(); column++) {
+                if (tiles.size() > 0) {
+                    board[row][column] = tiles.remove(0);
+                }
+            }
+        }
+        moveCount = 0;
+    }
+
+        @Override
+        public String toString
+        
+            () {
+        StringBuilder toString = new StringBuilder("Board situation:\n");
+            for (int row = 0; row < getRows(); row++) {
+                for (int column = 0; column < getColumns(); column++) {
+                    if (column != 0) {
+                        toString.append(" | ");
+                    }
+                    Tile tile = board[row][column];
+                    if (tile != null) {
+                        toString.append(String.format("%2s", tile.toString()));
+                    } else {
+                        toString.append("  ");
+                    }
+                }
+                toString.append("\n");
+            }
+            return toString.toString();
+        }
+    }
