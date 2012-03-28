@@ -3,7 +3,8 @@ import java.io.*;
 import java.util.Scanner;
 
 /**
- *
+ * This class deals with different game instances(boards) and saving game files, 
+ * it knows the Player objects and functions at the moment as a user interface
  * @author Valeria
  */
 public class SortingGame {
@@ -21,10 +22,10 @@ public class SortingGame {
         return saveFile;
     }
 
-    public void loadSavedGame(Board board) throws Exception {
+    public Board loadSavedGame() throws Exception {
         try (FileInputStream file = new FileInputStream(getSaveFile())) {
             ObjectInputStream load = new ObjectInputStream(file);
-            board = (Board) load.readObject();
+            return (Board)load.readObject();
         }
     }
 
@@ -55,7 +56,7 @@ public class SortingGame {
                     saveGame(board);
                     continue;
                 } else if (row == -3) {
-                    loadSavedGame(board);
+                    board = loadSavedGame();
                     continue;
                 }
 
