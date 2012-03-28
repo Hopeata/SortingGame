@@ -104,17 +104,59 @@ public class BoardTest {
     
     @Test
     public void testMoveCounter() {
-        Board board = new Board(4, 5);
+        Board board = new Board(4, 4);
         assertEquals(0, board.getMoveCount());
         board.initializeBoard();
         assertEquals(0, board.getMoveCount());
         board.moveTile(3, 2);
-        board.moveTile(3, 2);
-        board.moveTile(3, 2);
-        board.moveTile(3, 2);
+        board.moveTile(3, 1);
+        board.moveTile(3, 0);
+        board.moveTile(2, 0);
         assertEquals(4, board.getMoveCount());
         board.initializeBoard();
         assertEquals(0, board.getMoveCount());
+    }
+    
+    public Board initializeBoard() {
+        Board board = new Board(3, 3);
+        board.initializeBoard();
+        return board;
+    }
+    
+    @Test
+    public void makeValidMove() {
+        Board board = initializeBoard();
+        assertEquals(true, board.moveTile(1, 2));
+        board.moveTile(1, 1);
+        board.moveTile(2, 1);
+        assertEquals(true, board.moveTile(2, 2));
+    }
+    
+    @Test
+    public void makeInvalidMove() {
+        Board board = initializeBoard();
+        assertEquals(false, board.moveTile(0, 1));
+        board.moveTile(2, 1);
+        board.moveTile(2, 0);
+        assertEquals(false, board.moveTile(2, 2));
+    }
+    
+    @Test
+    public void makeMoveWithEmptyTile() {
+        Board board = initializeBoard();
+        assertEquals(false, board.moveTile(2, 2));
+        board.moveTile(2, 1);
+        board.moveTile(2, 0);
+        assertEquals(false, board.moveTile(2, 0));
+    }
+    
+    @Test
+    public void gameSorted() {
+        Board board = initializeBoard();
+        board.sortTilesInOrder();
+        assertEquals(true, board.tilesInOrder());
+        board.moveTile(2, 1);
+        assertEquals(false, board.tilesInOrder());
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:

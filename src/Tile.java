@@ -1,10 +1,10 @@
 
-
+import java.io.Serializable;
 /**
- *
+ * The main function of this class is to represent the tile used on the board
  * @author Valeria
  */
-public class Tile implements Comparable<Tile> {
+public class Tile implements Comparable<Tile>, Serializable {
     
     private int orderNumber;
     

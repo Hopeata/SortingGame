@@ -1,12 +1,15 @@
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *
+ * This class keeps track about one single game at once and functions as a board for the tiles at the same
+ * time. It initializes each game/board, makes the moves and sorts them if necessary. It knows, when the
+ * game has been won and counts the moves.
  * @author Valeria
  */
-public class Board {
+public class Board implements Serializable {
 
     private Tile[][] board;
     private int moveCount = 0;
@@ -74,9 +77,9 @@ public class Board {
     /**
      * The method 'makes a move' on the Board with tile if possible
      *
-     * @param row
-     * @param column
-     * @return boolean if a Tile was moved
+     * @param row given by the user
+     * @param column given by the user
+     * @return boolean whether the Tile can be moved or not
      */
     public boolean moveTile(int row, int column) {
         int[] emptyTileCoordinates = findEmptyTile(row, column);
