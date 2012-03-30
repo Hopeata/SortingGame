@@ -1,33 +1,13 @@
 
-import java.io.*;
 import java.util.Scanner;
 
 /**
- * This class deals with different game instances(boards) and saving game files, 
+ * This class deals with different game instances(boards) and saving game files,
  * it knows the Player objects and functions at the moment as a user interface
+ *
  * @author Valeria
  */
 public class SortingGame {
-
-    public void saveGame(Board board) throws Exception {
-        try (FileOutputStream file = new FileOutputStream(getSaveFile())) {
-            ObjectOutputStream save = new ObjectOutputStream(file);
-            save.writeObject(board);
-            save.flush();
-        }
-    }
-
-    private File getSaveFile() {
-        File saveFile = new File("game.save");
-        return saveFile;
-    }
-
-    public Board loadSavedGame() throws Exception {
-        try (FileInputStream file = new FileInputStream(getSaveFile())) {
-            ObjectInputStream load = new ObjectInputStream(file);
-            return (Board)load.readObject();
-        }
-    }
 
     private void textUserInterface() {
         Scanner reader = new Scanner(System.in);
@@ -37,6 +17,7 @@ public class SortingGame {
         int columns = reader.nextInt();
         Board board = new Board(rows, columns);
         board.initializeBoard();
+        Player player = new Player("TextUI");
         while (true) {
             System.out.println(board.toString());
             System.out.println("Your moves: " + board.getMoveCount());
@@ -53,10 +34,10 @@ public class SortingGame {
                 if (row == -1) {
                     break;
                 } else if (row == -2) {
-                    saveGame(board);
+                    StorageManager.saveGame(board, player);
                     continue;
                 } else if (row == -3) {
-                    board = loadSavedGame();
+                    board = StorageManager.loadSavedGame(player);
                     continue;
                 }
 
