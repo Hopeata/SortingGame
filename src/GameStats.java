@@ -3,7 +3,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- *
+ * This class keeps track of the situation of a single game: the size(columns and rows),
+ * whether the game is solved, which is the moveCount and the date when the game was finished.
  * @author Valeria
  */
 public class GameStats implements Serializable {

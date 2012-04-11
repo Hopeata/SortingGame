@@ -75,7 +75,7 @@ public class Board implements Serializable {
     }
 
     /**
-     * The method 'makes a move' on the Board with tile if possible
+     * The method 'makes a move' on the Board with Tile if possible
      *
      * @param row given by the user
      * @param column given by the user
@@ -92,6 +92,13 @@ public class Board implements Serializable {
         return false;
     }
 
+    /**
+     * This method checks if there is empty tiles around the tile which coordinates are given
+     * as a parameter. If there is, the method returns its coordinates, if not, it returns null.
+     * @param row
+     * @param column
+     * @return int[] with coordinates of the empty tile, if there is one. If there's not, it returns null.
+     */
     private int[] findEmptyTile(int row, int column) {
         if (column > 0 && board[row][column - 1] == null) {
             return new int[]{row, column - 1};
@@ -105,6 +112,10 @@ public class Board implements Serializable {
         return null;
     }
 
+    /**
+     * This method checks whether the Tiles are in order. It returns true if they are.
+     * @return boolean whether the Tiles are in order.
+     */
     public boolean tilesInOrder() {
         int expectedOrderNumber = 1;
         for (int row = 0; row < getRows(); row++) {
@@ -123,7 +134,10 @@ public class Board implements Serializable {
         }
         return true;
     }
-
+    
+    /**
+     * This method sorts Tiles in order and returns moveCount to zero.  
+     */
     public void sortTilesInOrder() {
         ArrayList<Tile> tiles = new ArrayList<>();
         for (int row = 0; row < getRows(); row++) {

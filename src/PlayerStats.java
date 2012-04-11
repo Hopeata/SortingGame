@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- *
+ * This class manages the information of the games the Player has played.
  * @author Valeria
  */
 public class PlayerStats implements Serializable {
@@ -13,7 +13,12 @@ public class PlayerStats implements Serializable {
     public PlayerStats() {
         playedGames = new ArrayList<>();
     }
-
+    
+    /**
+     * This method adds a GameStats object containing the information of a single game
+     * to the list of played games.
+     * @param playedGame 
+     */
     public void addPlayedGame(GameStats playedGame) {
         playedGames.add(playedGame);
     }

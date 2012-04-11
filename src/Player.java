@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 /**
- *
+ * This class keeps track about the name and statistics of each player. 
  * @author Valeria
  */
 public class Player implements Serializable {
