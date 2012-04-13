@@ -1,5 +1,10 @@
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class deals with different game instances(boards) and saving game files,
@@ -8,6 +13,26 @@ import java.util.Scanner;
  * @author Valeria
  */
 public class SortingGame {
+
+    private Player selectedPlayer;
+    private ArrayList<Player> players;
+
+    public SortingGame() {
+        players = StorageManager.loadSavedPlayers();
+        selectedPlayer = null;
+    }
+
+    public Player getSelectedPlayer() {
+        return selectedPlayer;
+    }
+
+    public void setSelectedPlayer(Player selectedPlayer) {
+        this.selectedPlayer = selectedPlayer;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
 
     private void textUserInterface() {
         Scanner reader = new Scanner(System.in);
@@ -67,7 +92,5 @@ public class SortingGame {
     public static void main(String[] args) {
         SortingGame game = new SortingGame();
         game.textUserInterface();
-
-
     }
 }

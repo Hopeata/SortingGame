@@ -1,19 +1,46 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/*
+ * To change this template, choose Tools | Templates and open the template in
+ * the editor.
+ */
 /**
  *
  * @author Valeria
  */
 public class SortingGameUI extends javax.swing.JFrame {
 
+    private SortingGame game;
+
     /**
      * Creates new form SortingGameUI
      */
     public SortingGameUI() {
+        game = new SortingGame();
         initComponents();
+        setLocationRelativeTo(null);
+        contentPanel.removeAll();
+        contentPanel.add(new PlayerSelectionPanel(this));
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return game.getPlayers();
+    }
+
+    public Player getSelectedPlayer() {
+        return game.getSelectedPlayer();
+    }
+
+    public void selectPlayer(Player player) {
+        game.setSelectedPlayer(player);
+        contentPanel.removeAll();
+        contentPanel.add(new BoardSettingPanel(this));
+        contentPanel.revalidate();
     }
 
     /**
@@ -25,17 +52,27 @@ public class SortingGameUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        contentPanel = new javax.swing.JPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(800, 600));
+        setResizable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                .addGap(116, 116, 116))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+                .addGap(107, 107, 107))
         );
 
         pack();
@@ -83,5 +120,6 @@ public class SortingGameUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel contentPanel;
     // End of variables declaration//GEN-END:variables
 }

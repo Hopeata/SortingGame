@@ -27,7 +27,7 @@ public class Player implements Serializable {
 
     @Override
     public String toString() {
-        return "Player " + name + "'s results:\n" + stats;
+        return name;
     }
     
     
