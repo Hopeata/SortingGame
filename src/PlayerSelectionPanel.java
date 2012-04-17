@@ -55,8 +55,12 @@ public class PlayerSelectionPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jList1);
 
+        setPreferredSize(new java.awt.Dimension(500, 375));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Symbol", 1, 24)); // NOI18N
         jLabel1.setText("Select player");
 
+        selectButton.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
         selectButton.setText("Select player");
         selectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,6 +68,7 @@ public class PlayerSelectionPanel extends javax.swing.JPanel {
             }
         });
 
+        deleteButton.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
         deleteButton.setText("Delete player");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,6 +76,7 @@ public class PlayerSelectionPanel extends javax.swing.JPanel {
             }
         });
 
+        addButton.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
         addButton.setText("Add player");
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,6 +84,7 @@ public class PlayerSelectionPanel extends javax.swing.JPanel {
             }
         });
 
+        playerList.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
         playerList.setModel(getPlayerListModel());
         playerList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(playerList);
@@ -99,7 +106,7 @@ public class PlayerSelectionPanel extends javax.swing.JPanel {
                                 .addComponent(addButton)
                                 .addGap(18, 18, 18)
                                 .addComponent(deleteButton)))))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,7 +120,7 @@ public class PlayerSelectionPanel extends javax.swing.JPanel {
                     .addComponent(deleteButton)
                     .addComponent(addButton)
                     .addComponent(selectButton))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -126,7 +133,7 @@ public class PlayerSelectionPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_selectButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        // TODO add your handling code here:
+        sortingGameUI.addPlayer((Player) playerList.getSelectedValue());
     }//GEN-LAST:event_addButtonActionPerformed
 
     private ListModel getPlayerListModel() {
@@ -135,6 +142,7 @@ public class PlayerSelectionPanel extends javax.swing.JPanel {
         for (Player player : listOfPlayers) {
             model.addElement(player);
         }
+        model.addElement(new Player("New player"));
         return model;
     }
     

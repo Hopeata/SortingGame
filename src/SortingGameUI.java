@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /*
  * To change this template, choose Tools | Templates and open the template in
@@ -43,6 +44,32 @@ public class SortingGameUI extends javax.swing.JFrame {
         contentPanel.revalidate();
     }
 
+    public void addPlayer(Player player) {
+        String name = JOptionPane.showInputDialog("Please give your name");
+        ArrayList<Player> players = game.getPlayers();
+        for (Player player1 : players) {
+            if (player1.getName().equals(player.getName())) {
+                JOptionPane.showMessageDialog(null, "The player already exists, choose another name");
+            }
+        }
+    }
+
+    public void startNewGame(int row, int column) {
+        game.startNewGame(row, column);
+        contentPanel.removeAll();
+        contentPanel.add(new BoardPanel(this));
+        contentPanel.revalidate();
+    }
+
+    public void closeGame() {
+        if (JOptionPane.showConfirmDialog(null, "Do you want to save your game?") == 0) {
+            StorageManager.saveGame(game.getBoard(), game.getSelectedPlayer());
+            System.exit(0);
+        } else {
+            System.exit(0);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,7 +82,6 @@ public class SortingGameUI extends javax.swing.JFrame {
         contentPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 600));
         setResizable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
