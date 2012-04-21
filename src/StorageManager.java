@@ -52,12 +52,23 @@ public class StorageManager {
      */
     public static Board loadSavedGame(Player player) {
         try {
-            try (FileInputStream file = new FileInputStream(getSaveGameFile(player))) {
-                ObjectInputStream load = new ObjectInputStream(file);
+            File file = getSaveGameFile(player);
+            if (!file.exists()) {
+                return null;
+            }
+            try (FileInputStream fileStream = new FileInputStream(file)) {
+                ObjectInputStream load = new ObjectInputStream(fileStream);
                 return (Board) load.readObject();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+    
+    public static void deleteSavedGame(Player player) {
+        File file = getSaveGameFile(player);
+        if (file.exists()) {
+            file.delete();
         }
     }
 
@@ -126,8 +137,12 @@ public class StorageManager {
      */
     public static ArrayList<Player> loadSavedPlayers(String fileName) {
         try {
-            try (FileInputStream file = new FileInputStream(getSavePlayersFile(fileName))) {
-                ObjectInputStream load = new ObjectInputStream(file);
+            File file = getSavePlayersFile(fileName);
+            if (!file.exists()) {
+                return new ArrayList<Player>();
+            }
+            try (FileInputStream fileStream = new FileInputStream(file)) {
+                ObjectInputStream load = new ObjectInputStream(fileStream);
                 return (ArrayList<Player>) load.readObject();
             }
         } catch (Exception e) {

@@ -44,7 +44,7 @@ public class PlayerSelectionPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         selectButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        addButton = new javax.swing.JButton();
+        newPlayerButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         playerList = new javax.swing.JList();
 
@@ -76,11 +76,11 @@ public class PlayerSelectionPanel extends javax.swing.JPanel {
             }
         });
 
-        addButton.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
-        addButton.setText("Add player");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
+        newPlayerButton.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
+        newPlayerButton.setText("New player");
+        newPlayerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
+                newPlayerButtonActionPerformed(evt);
             }
         });
 
@@ -103,7 +103,7 @@ public class PlayerSelectionPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(addButton)
+                                .addComponent(newPlayerButton)
                                 .addGap(18, 18, 18)
                                 .addComponent(deleteButton)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -118,7 +118,7 @@ public class PlayerSelectionPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(deleteButton)
-                    .addComponent(addButton)
+                    .addComponent(newPlayerButton)
                     .addComponent(selectButton))
                 .addContainerGap(82, Short.MAX_VALUE))
         );
@@ -132,9 +132,9 @@ public class PlayerSelectionPanel extends javax.swing.JPanel {
         sortingGameUI.selectPlayer((Player) playerList.getSelectedValue());
     }//GEN-LAST:event_selectButtonActionPerformed
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        sortingGameUI.addPlayer((Player) playerList.getSelectedValue());
-    }//GEN-LAST:event_addButtonActionPerformed
+    private void newPlayerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newPlayerButtonActionPerformed
+        sortingGameUI.selectNewPlayer();
+    }//GEN-LAST:event_newPlayerButtonActionPerformed
 
     private ListModel getPlayerListModel() {
         DefaultListModel model = new DefaultListModel();
@@ -142,18 +142,17 @@ public class PlayerSelectionPanel extends javax.swing.JPanel {
         for (Player player : listOfPlayers) {
             model.addElement(player);
         }
-        model.addElement(new Player("New player"));
         return model;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton newPlayerButton;
     private javax.swing.JList playerList;
     private javax.swing.JButton selectButton;
     // End of variables declaration//GEN-END:variables

@@ -17,9 +17,7 @@ public class SortingGame {
     private Player selectedPlayer;
     private ArrayList<Player> players;
     private Board board;
-    private int rowNumber;
-    private int columnNumber;
-
+    
     public SortingGame() {
         players = StorageManager.loadSavedPlayers();
         selectedPlayer = null;
@@ -37,26 +35,37 @@ public class SortingGame {
         return players;
     }
 
-    public void setSelectedRowNumber(int rowNumber) {
-        this.rowNumber = rowNumber;
-    }
-
     public Board getBoard() {
         return board;
     }
     
-    public void setSelectedColumnNumber(int columnNumber) {
-        this.columnNumber = columnNumber;
+    public void setBoard(Board board) {
+        this.board = board;
     }
     
-    public int getColumnNumber() {
-        return columnNumber;
+    public Board getSavedGame() {
+        return StorageManager.loadSavedGame(selectedPlayer);
     }
     
+    public void deleteSavedGame() {
+        StorageManager.deleteSavedGame(selectedPlayer);
+    }
+
     public void startNewGame(int rows, int columns) {
         board = new Board(rows, columns);
         board.initializeBoard();
-        StorageManager.saveGame(board, selectedPlayer);
+    }
+
+    public Player addPlayer(String name) {
+        for (Player player : players) {
+            if (player.getName().equals(name)) {
+                return null;
+            }
+        }
+        Player player = new Player(name);
+        players.add(player);
+        StorageManager.savePlayers(players);
+        return player;
     }
 
     private void textUserInterface() {
