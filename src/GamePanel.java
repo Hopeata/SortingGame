@@ -1,6 +1,7 @@
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,6 +51,7 @@ public class GamePanel extends javax.swing.JPanel {
         closeButton = new javax.swing.JButton();
         boardPanel = new javax.swing.JPanel();
 
+        setBackground(new java.awt.Color(0, 102, 102));
         setPreferredSize(new java.awt.Dimension(500, 375));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
@@ -149,9 +151,13 @@ public class GamePanel extends javax.swing.JPanel {
 
     private JPanel initTilePanel(final int row, final int column, Tile tile) {
         JPanel tilePanel = new JPanel();
-        tilePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        tilePanel.setBackground(new Color(0, 102, 102));
+        tilePanel.setBorder(BorderFactory.createLineBorder(Color.lightGray));
         if (tile != null) {
-            tilePanel.add(new JLabel("" + tile.getOrderNumber()));
+            JLabel orderNumber = new JLabel("" + tile.getOrderNumber());
+            orderNumber.setFont(new Font("Segoe UI Symbol", Font.BOLD, 18));
+            orderNumber.setForeground(Color.lightGray);
+            tilePanel.add(orderNumber);
             tilePanel.addMouseListener(new MouseAdapter() {
 
                 @Override

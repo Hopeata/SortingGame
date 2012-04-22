@@ -67,6 +67,21 @@ public class SortingGame {
         StorageManager.savePlayers(players);
         return player;
     }
+    
+    public void deleteSelectedPlayer(Player player) {
+        players.remove(player);
+        StorageManager.savePlayers(players);
+        StorageManager.deleteSavedGame(player);
+    }
+    
+    public boolean moveTile(int row, int column) {
+        boolean tilesInOrder = false;
+        board.moveTile(row, column);
+        if (board.tilesInOrder()) {
+            return tilesInOrder = true;
+        }
+        return tilesInOrder;
+    }
 
     private void textUserInterface() {
         Scanner reader = new Scanner(System.in);

@@ -57,19 +57,23 @@ public class SortingGameUI extends javax.swing.JFrame {
     }
 
     public void selectPlayer(Player player) {
-        game.setSelectedPlayer(player);
-        Board savedGame = game.getSavedGame();
-        if (savedGame != null) {
-            if (JOptionPane.showConfirmDialog(null, "Do you want to want to "
-                    + "continue the previous game?") == 0) {
-                game.setBoard(savedGame);
-                showGamePanel();
-                return;
-            } else {
-                deleteSavedGame();
+        if (player == null) {
+            JOptionPane.showMessageDialog(null, "No player was selected");
+        } else {
+            game.setSelectedPlayer(player);
+            Board savedGame = game.getSavedGame();
+            if (savedGame != null) {
+                if (JOptionPane.showConfirmDialog(null, "Do you want to want to "
+                        + "continue the previous game?") == 0) {
+                    game.setBoard(savedGame);
+                    showGamePanel();
+                    return;
+                } else {
+                    deleteSavedGame();
+                }
             }
+            showBoardSettingPanel();
         }
-        showBoardSettingPanel();
     }
 
     private void setContentPanelContent(JPanel panel) {
@@ -105,6 +109,11 @@ public class SortingGameUI extends javax.swing.JFrame {
         selectPlayer(player);
     }
 
+    public void deleteSelectedPlayer(Player player) {
+        game.deleteSelectedPlayer(player);
+        setContentPanelContent(new PlayerSelectionPanel(this));
+    }
+
     public Tile[][] getBoardTiles() {
         return game.getBoard().getBoard();
     }
@@ -115,7 +124,10 @@ public class SortingGameUI extends javax.swing.JFrame {
     }
 
     public void moveTile(int row, int column) {
-        game.getBoard().moveTile(row, column);
+        boolean tilesSorted = game.moveTile(row, column);
+        if (tilesSorted) {
+            JOptionPane.showMessageDialog(null, "Congratulations!");
+        }
     }
 
     public void closeGame() {
@@ -124,8 +136,8 @@ public class SortingGameUI extends javax.swing.JFrame {
             StorageManager.saveGame(game.getBoard(), game.getSelectedPlayer());
             System.exit(0);
         } else if (dialogSelection == JOptionPane.NO_OPTION) {
-             System.exit(0);           
-        } 
+            System.exit(0);
+        }
     }
 
     /**
@@ -140,12 +152,15 @@ public class SortingGameUI extends javax.swing.JFrame {
         contentPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 102, 102));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 windowClosingHandler(evt);
             }
         });
+
+        contentPanel.setBackground(new java.awt.Color(0, 102, 102));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
