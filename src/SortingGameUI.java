@@ -3,10 +3,12 @@ import java.awt.Component;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
 /*
@@ -58,7 +60,7 @@ public class SortingGameUI extends javax.swing.JFrame {
 
     public void selectPlayer(Player player) {
         if (player == null) {
-            JOptionPane.showMessageDialog(null, "No player was selected");
+            JOptionPane.showMessageDialog(null, "No player has been selected");
         } else {
             game.setSelectedPlayer(player);
             Board savedGame = game.getSavedGame();
@@ -103,15 +105,21 @@ public class SortingGameUI extends javax.swing.JFrame {
             }
             player = game.addPlayer(name);
             if (player == null) {
-                JOptionPane.showMessageDialog(null, "The player already exists, choose another name");
+                JOptionPane.showMessageDialog(null, "The player already exists, "
+                        + "choose another name", "Player exists", JOptionPane.PLAIN_MESSAGE);
             }
         }
         selectPlayer(player);
     }
 
     public void deleteSelectedPlayer(Player player) {
-        game.deleteSelectedPlayer(player);
-        setContentPanelContent(new PlayerSelectionPanel(this));
+        if (player == null) {
+            JOptionPane.showMessageDialog(null, "No player has been selected", 
+                    "No player selected", JOptionPane.PLAIN_MESSAGE);
+        } else {
+            game.deleteSelectedPlayer(player);
+            setContentPanelContent(new PlayerSelectionPanel(this));
+        }
     }
 
     public Tile[][] getBoardTiles() {
@@ -124,20 +132,42 @@ public class SortingGameUI extends javax.swing.JFrame {
     }
 
     public void moveTile(int row, int column) {
-        boolean tilesSorted = game.moveTile(row, column);
-        if (tilesSorted) {
-            JOptionPane.showMessageDialog(null, "Congratulations!");
+        game.moveTile(row, column);
+    }
+
+    public void checkIfTilesInOrder() {
+        if (game.tilesInOrder()) {
+            JOptionPane.showMessageDialog(null,
+                    "Congratulations! You solved the game (hope you didn't expect fireworks)", 
+                    "Game solved", JOptionPane.PLAIN_MESSAGE);
         }
     }
 
+    public void showStats() {
+        JOptionPane.showMessageDialog(null, new StatsPanel(this), null, JOptionPane.PLAIN_MESSAGE);
+    }
+
+    public void addGameStats() {
+        game.addGameStats(new GameStats(getBoardRows(), getBoardColumns(), getMoveCount(), game.tilesInOrder(), new Date()));
+    }
+
     public void closeGame() {
+        if (game.tilesInOrder()) {
+            addGameStats();
+            System.exit(0);
+        }
         int dialogSelection = JOptionPane.showConfirmDialog(null, "Do you want to save your game?");
         if (dialogSelection == JOptionPane.YES_OPTION) {
             StorageManager.saveGame(game.getBoard(), game.getSelectedPlayer());
             System.exit(0);
         } else if (dialogSelection == JOptionPane.NO_OPTION) {
+            addGameStats();
             System.exit(0);
         }
+    }
+
+    public void cheat() {
+        game.cheat();
     }
 
     /**
@@ -152,15 +182,13 @@ public class SortingGameUI extends javax.swing.JFrame {
         contentPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(0, 102, 102));
+        setTitle("SortinGame");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 windowClosingHandler(evt);
             }
         });
-
-        contentPanel.setBackground(new java.awt.Color(0, 102, 102));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

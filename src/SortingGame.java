@@ -75,12 +75,21 @@ public class SortingGame {
     }
     
     public boolean moveTile(int row, int column) {
-        boolean tilesInOrder = false;
-        board.moveTile(row, column);
-        if (board.tilesInOrder()) {
-            return tilesInOrder = true;
-        }
-        return tilesInOrder;
+        return board.moveTile(row, column);
+    }
+    
+    public boolean tilesInOrder() {
+        return board.tilesInOrder();
+    }
+    
+    public void cheat() {
+        board.sortTilesInOrder();
+        board.moveTile(board.getRows() - 1, board.getColumns() - 2);
+    }
+    
+    public void addGameStats(GameStats gameStats) {
+        selectedPlayer.getStats().addPlayedGame(gameStats);
+        StorageManager.savePlayers(players);
     }
 
     private void textUserInterface() {

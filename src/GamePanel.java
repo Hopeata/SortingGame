@@ -33,6 +33,7 @@ public class GamePanel extends javax.swing.JPanel {
         initBoardPanel();
         drawTilePanels();
         showMoveCount();
+        initSecretCheatingPanel();
     }
 
     /**
@@ -50,8 +51,8 @@ public class GamePanel extends javax.swing.JPanel {
         statsButton = new javax.swing.JButton();
         closeButton = new javax.swing.JButton();
         boardPanel = new javax.swing.JPanel();
+        secretCheatingPanel = new javax.swing.JPanel();
 
-        setBackground(new java.awt.Color(0, 102, 102));
         setPreferredSize(new java.awt.Dimension(500, 375));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
@@ -70,6 +71,11 @@ public class GamePanel extends javax.swing.JPanel {
 
         statsButton.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
         statsButton.setText("Your stats");
+        statsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statsButtonActionPerformed(evt);
+            }
+        });
 
         closeButton.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
         closeButton.setText("Close");
@@ -80,6 +86,17 @@ public class GamePanel extends javax.swing.JPanel {
         });
 
         boardPanel.setLayout(new java.awt.GridLayout());
+
+        javax.swing.GroupLayout secretCheatingPanelLayout = new javax.swing.GroupLayout(secretCheatingPanel);
+        secretCheatingPanel.setLayout(secretCheatingPanelLayout);
+        secretCheatingPanelLayout.setHorizontalGroup(
+            secretCheatingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 49, Short.MAX_VALUE)
+        );
+        secretCheatingPanelLayout.setVerticalGroup(
+            secretCheatingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 43, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -94,31 +111,33 @@ public class GamePanel extends javax.swing.JPanel {
                         .addComponent(statsButton)
                         .addGap(18, 18, 18)
                         .addComponent(closeButton)
-                        .addGap(0, 81, Short.MAX_VALUE))
+                        .addGap(0, 100, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(13, 13, 13)
                         .addComponent(boardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(moveCountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)))
-                        .addContainerGap())))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(moveCountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(26, 26, 26)))
+                            .addComponent(secretCheatingPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
+                        .addComponent(secretCheatingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(moveCountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(boardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                    .addComponent(boardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(statsButton)
                     .addComponent(startNewGameButton)
@@ -165,6 +184,7 @@ public class GamePanel extends javax.swing.JPanel {
                     sortingGameUI.moveTile(row, column);
                     drawTilePanels();
                     showMoveCount();
+                    sortingGameUI.checkIfTilesInOrder();
                 }
             });
         }
@@ -175,19 +195,38 @@ public class GamePanel extends javax.swing.JPanel {
         moveCountLabel.setText("" + sortingGameUI.getMoveCount());
     }
 
+    private void initSecretCheatingPanel() {
+        secretCheatingPanel.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent me) {
+                sortingGameUI.cheat();
+                drawTilePanels();
+                showMoveCount();
+            }
+        });
+    }
+
     private void startNewGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startNewGameButtonActionPerformed
         sortingGameUI.deleteSavedGame();
+        sortingGameUI.addGameStats();
         sortingGameUI.showBoardSettingPanel();
     }//GEN-LAST:event_startNewGameButtonActionPerformed
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         sortingGameUI.closeGame();
     }//GEN-LAST:event_closeButtonActionPerformed
+
+    private void statsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statsButtonActionPerformed
+        sortingGameUI.showStats();
+    }//GEN-LAST:event_statsButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel boardPanel;
     private javax.swing.JButton closeButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel moveCountLabel;
+    private javax.swing.JPanel secretCheatingPanel;
     private javax.swing.JButton startNewGameButton;
     private javax.swing.JButton statsButton;
     // End of variables declaration//GEN-END:variables

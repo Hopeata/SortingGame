@@ -157,7 +157,7 @@ public class Board implements Serializable {
                 }
             }
         }
-        moveCount = 0;
+        moveCount = moveCount + 1000;
     }
 
         @Override

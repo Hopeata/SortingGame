@@ -1,5 +1,6 @@
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  * whether the game is solved, which is the moveCount and the date when the game was finished.
  * @author Valeria
  */
-public class GameStats implements Serializable {
+public class GameStats implements Serializable, Comparable {
 
     private int boardRows;
     private int boardColumns;
@@ -45,10 +46,16 @@ public class GameStats implements Serializable {
     }
 
     @Override
+    public int compareTo(Object t) {
+        GameStats otherStat = (GameStats) t;
+        return -1 * this.gameFinishedOn.compareTo(otherStat.getGameFinishedOn());
+    }
+
+    @Override
     public String toString() {
         return "" + boardRows + "x" + boardColumns + ": " + 
                 (gameSolved ? "solved" : "unsolved") + " with " + 
-                moveCount + " moves on " + gameFinishedOn;
+                moveCount + " moves on " + new SimpleDateFormat("dd.MM.yyyy HH:mm").format(gameFinishedOn);
     }
     
     

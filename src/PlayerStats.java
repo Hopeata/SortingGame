@@ -45,10 +45,6 @@ public class PlayerStats implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Solved games: " + getNumberOfSolvedGames() + " / " + getNumberOfPlayedGames());
-        sb.append("\nPlayed games:\n");
-        for (GameStats gameStats : playedGames) {
-            sb.append(gameStats + "\n");
-        }
         return sb.toString();
     }
     
